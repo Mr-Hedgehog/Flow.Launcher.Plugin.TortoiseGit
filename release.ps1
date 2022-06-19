@@ -1,0 +1,2 @@
+dotnet publish Flow.Launcher.Plugin.TortoiseGit -c Release -r win-x64
+Compress-Archive -LiteralPath Flow.Launcher.Plugin.TortoiseGit/bin/Release/win-x64/publish -DestinationPath Flow.Launcher.Plugin.TortoiseGit/bin/TortoiseGit.zip -Force

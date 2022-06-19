@@ -1,0 +1,12 @@
+{
+  "ID": "74BF8199-8673-410A-BA10-CA5A8506AF28",
+  "ActionKeyword": "git",
+  "Name": "TortoiseGit",
+  "Description": "TortoiseGit shortcuts",
+  "Author": "MrHedgehog",
+  "Version": "1.0.0",
+  "Language": "csharp",
+  "Website": "https://github.com/MrHedgehog/Flow.Launcher.Plugin.TortoiseGit",
+  "IcoPath": "Images\\icon.png",
+  "ExecuteFileName": "Flow.Launcher.Plugin.TortoiseGit.dll"
+}
