@@ -1,7 +1,8 @@
+using Flow.Launcher.Plugin.TortoiseGit.Commands;
+using Flow.Launcher.Plugin.TortoiseGit.Commands.TortoiseGit;
 using Flow.Launcher.Plugin.TortoiseGit.Models;
 using Flow.Launcher.Plugin.TortoiseGit.Views;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Controls;
@@ -27,7 +28,6 @@ namespace Flow.Launcher.Plugin.TortoiseGit
                 select new Result
                 {
                     Title = repository.Title,
-                    SubTitle = $"Query: {query.Search}",
                     IcoPath = Path.Combine("Images", "icon.png"),
                     Action = (context) => GetAction(repository, query),
                 };
@@ -40,13 +40,13 @@ namespace Flow.Launcher.Plugin.TortoiseGit
             return new SettingsControl(settings);
         }
 
-        private IEnumerable<GitRepoInfo> GetReposNames()
+        private IEnumerable<GitRepositoryInfo> GetReposNames()
         {
             var directories = settings.GitRepositoryPathSettings
                 ?.Where(x => Directory.Exists(x.Path))
                 .SelectMany(x => Directory.GetDirectories(x.Path, "*", SearchOption.TopDirectoryOnly));
             return directories
-                .Select(x => new GitRepoInfo
+                .Select(x => new GitRepositoryInfo
                 {
                     Title = new DirectoryInfo(x).Name,
                     FullPath = new DirectoryInfo(x).FullName,
@@ -55,22 +55,32 @@ namespace Flow.Launcher.Plugin.TortoiseGit
                 .ToArray();
         }
 
-        private static bool GetAction(GitRepoInfo repository, Query query)
+        private static bool GetAction(GitRepositoryInfo repository, Query query)
         {
-            switch (query.Search.Split(' ').FirstOrDefault()?.ToLowerInvariant())
+            var command = GetCommand(query.Search.Split(' ').FirstOrDefault()?.ToLowerInvariant());
+
+            if(command == null)
+            {
+                return false;
+            }
+
+            command.Execute(repository);
+            return true;
+        }
+
+        private static ICommand GetCommand(string commandName)
+        {
+            switch (commandName)
             {
                 case "log":
-                    Process.Start("TortoiseGitProc.exe", $"/command:log /path:{repository.FullPath}");
-                    return true;
+                    return new LogCommand();
 
                 case "cmd":
-                    Process.Start("wt", $"-w 1 -d \"{repository.FullPath}\" --title \"{repository.Title}\"");
-                    return true;
+                    return new CmdCommand();
 
                 case "open":
                 default:
-                    Process.Start("explorer.exe", repository.FullPath);
-                    return true;
+                    return new OpenCommand();
             }
         }
 
@@ -82,12 +92,6 @@ namespace Flow.Launcher.Plugin.TortoiseGit
         public string GetTranslatedPluginDescription()
         {
             return context.API.GetTranslation("flowlauncher_plugin_tortoisegit_plugin_description");
-        }
-
-        private class GitRepoInfo
-        {
-            public string Title { get; set; }
-            public string FullPath { get; set; }
         }
     }
 }
