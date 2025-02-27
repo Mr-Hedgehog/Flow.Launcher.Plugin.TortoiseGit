@@ -1,8 +1,7 @@
-﻿namespace Flow.Launcher.Plugin.TortoiseGit.Models
+﻿namespace Flow.Launcher.Plugin.TortoiseGit.Models;
+
+internal class GitRepositoryInfo
 {
-    internal class GitRepositoryInfo
-    {
-        public string Title { get; set; }
-        public string FullPath { get; set; }
-    }
+    public string Title { get; set; }
+    public string FullPath { get; set; }
 }

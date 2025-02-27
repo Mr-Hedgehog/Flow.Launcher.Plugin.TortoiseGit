@@ -1,9 +1,8 @@
 ﻿using Flow.Launcher.Plugin.TortoiseGit.Models;
 
-namespace Flow.Launcher.Plugin.TortoiseGit.Commands
+namespace Flow.Launcher.Plugin.TortoiseGit.Commands;
+
+internal interface ICommand
 {
-    internal interface ICommand
-    {
-        void Execute(GitRepositoryInfo gitRepositoryInfo);
-    }
+    void Execute(GitRepositoryInfo gitRepositoryInfo);
 }

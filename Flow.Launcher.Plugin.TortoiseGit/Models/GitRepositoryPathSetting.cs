@@ -1,37 +1,45 @@
 ﻿
-namespace Flow.Launcher.Plugin.TortoiseGit.Models
+namespace Flow.Launcher.Plugin.TortoiseGit.Models;
+
+/// <summary>
+/// Represents a Git repository path setting
+/// </summary>
+public class GitRepositoryPathSetting : BaseModel
 {
-    public class GitRepositoryPathSetting : BaseModel
+    private string name;
+    private string path;
+
+    /// <summary>
+    /// Gets or sets the name of the Git repository
+    /// </summary>
+    public string Name
     {
-        private string name;
-        private string path;
-
-        public string Name
+        get
         {
-            get
-            {
-                return name;
-            }
-
-            set
-            {
-                name = value;
-                OnPropertyChanged(nameof(Name));
-            }
+            return name;
         }
 
-        public string Path
+        set
         {
-            get
-            {
-                return path;
-            }
+            name = value;
+            OnPropertyChanged(nameof(Name));
+        }
+    }
 
-            set
-            {
-                path = value;
-                OnPropertyChanged(nameof(Path));
-            }
+    /// <summary>
+    /// Gets or sets the path to the Git repository.
+    /// </summary>
+    public string Path
+    {
+        get
+        {
+            return path;
+        }
+
+        set
+        {
+            path = value;
+            OnPropertyChanged(nameof(Path));
         }
     }
 }

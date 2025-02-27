@@ -20,7 +20,7 @@
                 Margin="10"
                 BorderBrush="DarkGray"
                 BorderThickness="1"
-                ItemsSource="{Binding Settings.GitRepos}"
+                ItemsSource="{Binding Settings.GitRepositoryPathSettings}"
                 MouseDoubleClick="MouseDoubleClickOnSelectedGitPath"
                 SelectedItem="{Binding SelectedRepository}"
                 Style="{StaticResource {x:Static GridView.GridViewStyleKey}}">

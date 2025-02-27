@@ -1,5 +1,6 @@
 using Flow.Launcher.Plugin.TortoiseGit.Commands;
 using Flow.Launcher.Plugin.TortoiseGit.Commands.TortoiseGit;
+using Flow.Launcher.Plugin.TortoiseGit.Commands.Windows;
 using Flow.Launcher.Plugin.TortoiseGit.Models;
 using Flow.Launcher.Plugin.TortoiseGit.Views;
 using System.Collections.Generic;
@@ -45,6 +46,7 @@ namespace Flow.Launcher.Plugin.TortoiseGit
             var directories = settings.GitRepositoryPathSettings
                 ?.Where(x => Directory.Exists(x.Path))
                 .SelectMany(x => Directory.GetDirectories(x.Path, "*", SearchOption.TopDirectoryOnly));
+
             return directories
                 .Select(x => new GitRepositoryInfo
                 {
@@ -59,7 +61,7 @@ namespace Flow.Launcher.Plugin.TortoiseGit
         {
             var command = GetCommand(query.Search.Split(' ').FirstOrDefault()?.ToLowerInvariant());
 
-            if(command == null)
+            if (command == null)
             {
                 return false;
             }
@@ -70,18 +72,12 @@ namespace Flow.Launcher.Plugin.TortoiseGit
 
         private static ICommand GetCommand(string commandName)
         {
-            switch (commandName)
+            return commandName switch
             {
-                case "log":
-                    return new LogCommand();
-
-                case "cmd":
-                    return new CmdCommand();
-
-                case "open":
-                default:
-                    return new OpenCommand();
-            }
+                "log" => new LogCommand(),
+                "cmd" => new CmdCommand(),
+                _ => new OpenCommand(),
+            };
         }
 
         public string GetTranslatedPluginTitle()
